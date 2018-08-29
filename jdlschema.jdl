@@ -1,0 +1,14 @@
+entity Job{
+	url String,
+    title String
+}
+entity SearchQuery{
+	position String,
+    location String
+}
+
+relationship ManyToMany {
+  SearchQuery{job} to Job{searchQuery}
+}
+
+paginate Job with pagination

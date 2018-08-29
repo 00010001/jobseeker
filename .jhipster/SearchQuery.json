@@ -1,0 +1,32 @@
+{
+    "name": "SearchQuery",
+    "fields": [
+        {
+            "fieldName": "position",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "location",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "searchQuery",
+            "relationshipName": "job",
+            "otherEntityName": "job",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20180829172212",
+    "entityTableName": "search_query",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
