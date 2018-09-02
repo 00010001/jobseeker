@@ -1,7 +1,9 @@
 package com.krzysztof.jobseeker.repository;
 
 import com.krzysztof.jobseeker.domain.Job;
-import org.springframework.data.jpa.repository.*;
+import com.krzysztof.jobseeker.domain.SearchQuery;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
@@ -11,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
-
+    List<Job> findBySearchQueries(SearchQuery searchQuery);
 }
