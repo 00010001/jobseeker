@@ -27,4 +27,5 @@ public interface SearchQueryRepository extends JpaRepository<SearchQuery, Long> 
     @Query("select search_query from SearchQuery search_query left join fetch search_query.jobs where search_query.id =:id")
     Optional<SearchQuery> findOneWithEagerRelationships(@Param("id") Long id);
 
+    Optional<SearchQuery> findByPositionAndLocation(String position, String location);
 }
