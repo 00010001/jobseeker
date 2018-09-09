@@ -124,4 +124,14 @@ public class JobResource {
         jobRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    @DeleteMapping("/jobs")
+    @Timed
+    public ResponseEntity<Void> deleteJob() {
+        log.debug("REST request to delete all Jobs");
+
+        jobRepository.deleteAll();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME,""))
+            .build();
+    }
 }

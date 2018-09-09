@@ -39,7 +39,6 @@ public class JobSeekerService {
         SearchQuery searchQuery = new SearchQuery();
         searchQuery.setPosition(position);
         searchQuery.setLocation(location);
-        searchQueryRepository.save(searchQuery);
         return searchQuery;
     }
 

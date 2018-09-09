@@ -5,6 +5,7 @@ import com.krzysztof.jobseeker.domain.SearchQuery;
 import com.krzysztof.jobseeker.domain.crawler.WebsiteDetails;
 import com.krzysztof.jobseeker.domain.crawler.website.WebsiteName;
 import com.krzysztof.jobseeker.repository.JobRepository;
+import com.krzysztof.jobseeker.repository.SearchQueryRepository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CrawlerService {
@@ -27,25 +29,42 @@ public class CrawlerService {
 
     private WebsiteDetailsFactory websiteDetailsFactory;
     private JobRepository jobRepository;
+    private final SearchQueryRepository searchQueryRepository;
 
     @Autowired
     public CrawlerService(
         WebsiteDetailsFactory websiteDetailsFactory,
-        JobRepository jobRepository) {
+        JobRepository jobRepository,
+        SearchQueryRepository searchQueryRepository) {
         this.websiteDetailsFactory = websiteDetailsFactory;
         this.jobRepository = jobRepository;
+        this.searchQueryRepository = searchQueryRepository;
     }
 
     void crawlAllWebsites(SearchQuery searchQuery) {
         crawl(searchQuery, WebsiteName.PRACA);
         crawl(searchQuery, WebsiteName.PRACUJ);
+        searchQueryRepository.save(searchQuery);
     }
 
     @Async
     private void crawl(SearchQuery searchQuery, WebsiteName websiteName) {
         List<Job> jobList = parseJobs(searchQuery, websiteName);
+        assingSearchQueryToJobs(searchQuery, jobList);
+        assignJobsToSearchQuery(searchQuery, jobList);
         jobRepository.saveAll(jobList);
     }
+
+    private void assignJobsToSearchQuery(SearchQuery searchQuery, List<Job> jobList) {
+        searchQuery.getJobs().addAll(jobList);
+    }
+
+    private void assingSearchQueryToJobs(SearchQuery searchQuery, List<Job> jobList) {
+        for (Job job : jobList) {
+            job.getSearchQueries().add(searchQuery);
+        }
+    }
+
 
     private List<Job> parseJobs(SearchQuery searchQuery, WebsiteName websiteName) {
         WebsiteDetails websiteDetails = websiteDetailsFactory.getWebsiteDetails(websiteName);

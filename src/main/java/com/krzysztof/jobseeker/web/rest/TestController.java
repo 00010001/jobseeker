@@ -1,56 +1,46 @@
 package com.krzysztof.jobseeker.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import com.krzysztof.jobseeker.domain.Job;
-import com.krzysztof.jobseeker.domain.SearchQuery;
-import com.krzysztof.jobseeker.repository.JobRepository;
-import com.krzysztof.jobseeker.repository.SearchQueryRepository;
 import com.krzysztof.jobseeker.service.crawler.JobSeekerService;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api/crawler")
 public class TestController {
 
-    private JobRepository jobRepository;
-    private SearchQueryRepository searchQueryRepository;
+    private final Logger log = LoggerFactory.getLogger(TestController.class);
+
     private JobSeekerService jobSeekerService;
 
     @Autowired
-    public TestController(JobRepository jobRepository,
-        SearchQueryRepository searchQueryRepository,
-        JobSeekerService jobSeekerService) {
-        this.jobRepository = jobRepository;
-        this.searchQueryRepository = searchQueryRepository;
+    public TestController(JobSeekerService jobSeekerService) {
         this.jobSeekerService = jobSeekerService;
     }
 
-    @GetMapping("/api/crawler/")
-    public List<Job> costam() {
-        return jobSeekerService.getJobsByLocationAndPosition("java", "katowice");
+    @GetMapping("/testcrawler")
+    @Timed
+    public List<Job> testCrawler(@RequestParam(required = false, defaultValue = "false")
+        boolean eagerload) {
+        log.debug("test crawler");
+        return jobSeekerService.getJobsByLocationAndPosition("net", "katowice");
     }
 
-    @GetMapping("/api/mojtest")
-    public List<Job> findBySearchQueries() {
-        SearchQuery searchQuery = new SearchQuery();
-        searchQuery.setPosition("kierowca");
-        searchQuery.setLocation("kato");
-        searchQueryRepository.save(searchQuery);
+    @GetMapping("/jobs/{position}/{location}")
+    @Timed
+    public List<Job> getJobsByPositionAndLocation(
+        @PathVariable String position,
+        @PathVariable String location) {
 
-        Job job = new Job();
-        job.setTitle("kierowca tira");
-        job.setUrl("http://kierowcy.pl");
-        Set<Job> jobSet = new HashSet<>();
-        jobSet.add(job);
-
-        searchQuery.setJobs(jobSet);
-
-        jobRepository.save(job);
-        searchQueryRepository.save(searchQuery);
-
-        return jobRepository.findBySearchQueries(searchQuery);
+        log.debug("test crawler");
+        return jobSeekerService.getJobsByLocationAndPosition(position, location);
     }
 }
