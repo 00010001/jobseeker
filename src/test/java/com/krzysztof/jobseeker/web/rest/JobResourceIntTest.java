@@ -45,6 +45,15 @@ public class JobResourceIntTest {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_COMPANY_LOGO_URL = "AAAAAAAAAA";
+    private static final String UPDATED_COMPANY_LOGO_URL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_WEBSITE_LOGO_URL = "AAAAAAAAAA";
+    private static final String UPDATED_WEBSITE_LOGO_URL = "BBBBBBBBBB";
+
     @Autowired
     private JobRepository jobRepository;
 
@@ -85,7 +94,10 @@ public class JobResourceIntTest {
     public static Job createEntity(EntityManager em) {
         Job job = new Job()
             .url(DEFAULT_URL)
-            .title(DEFAULT_TITLE);
+            .title(DEFAULT_TITLE)
+            .description(DEFAULT_DESCRIPTION)
+            .companyLogoUrl(DEFAULT_COMPANY_LOGO_URL)
+            .websiteLogoUrl(DEFAULT_WEBSITE_LOGO_URL);
         return job;
     }
 
@@ -111,6 +123,9 @@ public class JobResourceIntTest {
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testJob.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testJob.getCompanyLogoUrl()).isEqualTo(DEFAULT_COMPANY_LOGO_URL);
+        assertThat(testJob.getWebsiteLogoUrl()).isEqualTo(DEFAULT_WEBSITE_LOGO_URL);
     }
 
     @Test
@@ -144,7 +159,10 @@ public class JobResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL.toString())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())));
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].companyLogoUrl").value(hasItem(DEFAULT_COMPANY_LOGO_URL.toString())))
+            .andExpect(jsonPath("$.[*].websiteLogoUrl").value(hasItem(DEFAULT_WEBSITE_LOGO_URL.toString())));
     }
     
 
@@ -160,7 +178,10 @@ public class JobResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(job.getId().intValue()))
             .andExpect(jsonPath("$.url").value(DEFAULT_URL.toString()))
-            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()));
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.companyLogoUrl").value(DEFAULT_COMPANY_LOGO_URL.toString()))
+            .andExpect(jsonPath("$.websiteLogoUrl").value(DEFAULT_WEBSITE_LOGO_URL.toString()));
     }
     @Test
     @Transactional
@@ -184,7 +205,10 @@ public class JobResourceIntTest {
         em.detach(updatedJob);
         updatedJob
             .url(UPDATED_URL)
-            .title(UPDATED_TITLE);
+            .title(UPDATED_TITLE)
+            .description(UPDATED_DESCRIPTION)
+            .companyLogoUrl(UPDATED_COMPANY_LOGO_URL)
+            .websiteLogoUrl(UPDATED_WEBSITE_LOGO_URL);
 
         restJobMockMvc.perform(put("/api/jobs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -197,6 +221,9 @@ public class JobResourceIntTest {
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getUrl()).isEqualTo(UPDATED_URL);
         assertThat(testJob.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testJob.getCompanyLogoUrl()).isEqualTo(UPDATED_COMPANY_LOGO_URL);
+        assertThat(testJob.getWebsiteLogoUrl()).isEqualTo(UPDATED_WEBSITE_LOGO_URL);
     }
 
     @Test

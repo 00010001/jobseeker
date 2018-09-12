@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 class WebsiteDetailsFactory {
 
-    WebsiteDetails getWebsiteDetails(WebsiteName websiteName) {
-        if (websiteName == null) {
+    WebsiteDetails getWebsiteDetails(WebsiteName website) {
+        if (website == null) {
             return null;
         }
-        if (websiteName.equals(WebsiteName.PRACUJ)) {
+        if (website.equals(WebsiteName.PRACUJ)) {
             return new Pracuj();
         }
-        if (websiteName.equals(WebsiteName.PRACA)) {
+        if (website.equals(WebsiteName.PRACA)) {
             return new Praca();
         }
         return null;

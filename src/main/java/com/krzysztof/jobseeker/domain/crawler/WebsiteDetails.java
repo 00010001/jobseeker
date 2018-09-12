@@ -6,10 +6,12 @@ public class WebsiteDetails implements Crawlable{
 
     private String jobPostingCssQuery;
     private String searchUrl;
+    private String websiteLogoUrl;
 
-    public WebsiteDetails(String jobPostingCssQuery, String searchUrl) {
+    public WebsiteDetails(String jobPostingCssQuery, String searchUrl, String logoUrl) {
         this.jobPostingCssQuery = jobPostingCssQuery;
         this.searchUrl = searchUrl;
+        this.websiteLogoUrl = logoUrl;
     }
 
     protected String getSearchUrl() {
@@ -20,6 +22,10 @@ public class WebsiteDetails implements Crawlable{
         return jobPostingCssQuery;
     }
 
+    public String getWebsiteLogoUrl() {
+        return websiteLogoUrl;
+    }
+
     @Override
     public String getCrawlUrl(String position, String location) {
         return null;
@@ -27,6 +33,11 @@ public class WebsiteDetails implements Crawlable{
 
     @Override
     public String getJobTitle(Element element) {
+        return null;
+    }
+
+    @Override
+    public String getJobDescription(Element element) {
         return null;
     }
 

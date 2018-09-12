@@ -13,5 +13,6 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
+
     List<Job> findBySearchQueries(SearchQuery searchQuery);
 }

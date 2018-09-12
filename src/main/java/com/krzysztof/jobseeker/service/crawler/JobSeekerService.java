@@ -29,18 +29,12 @@ public class JobSeekerService {
         if(optionalSearchQuery.isPresent()){
             return jobRepository.findBySearchQueries(optionalSearchQuery.get());
         } else {
-            SearchQuery searchQuery = createAndSaveSearchQuery(position, location);
+            SearchQuery searchQuery = new SearchQuery();
+            searchQuery.setPosition(position);
+            searchQuery.setLocation(location);
             crawlerService.crawlAllWebsites(searchQuery);
             return jobRepository.findBySearchQueries(searchQuery);
         }
     }
-
-    private SearchQuery createAndSaveSearchQuery(String position, String location){
-        SearchQuery searchQuery = new SearchQuery();
-        searchQuery.setPosition(position);
-        searchQuery.setLocation(location);
-        return searchQuery;
-    }
-
 
 }

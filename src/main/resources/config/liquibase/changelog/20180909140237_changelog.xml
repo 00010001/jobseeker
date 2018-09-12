@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="X (generated)" id="1536501764866-1">
+        <createTable tableName="job">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jobPK"/>
+            </column>
+            <column name="company_logo_url" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="website_logo_url" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="X (generated)" id="1536501764866-2">
+        <createTable tableName="search_query">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="search_queryPK"/>
+            </column>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="position" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="X (generated)" id="1536501764866-3">
+        <createTable tableName="search_query_job">
+            <column name="search_queries_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="jobs_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="X (generated)" id="1536501764866-4">
+        <addPrimaryKey columnNames="search_queries_id, jobs_id" tableName="search_query_job"/>
+    </changeSet>
+    <changeSet author="X (generated)" id="1536501764866-5">
+        <addForeignKeyConstraint baseColumnNames="search_queries_id" baseTableName="search_query_job" constraintName="FKeeffx6lyp0u00975ldt4ie3m" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="search_query"/>
+    </changeSet>
+    <changeSet author="X (generated)" id="1536501764866-6">
+        <addForeignKeyConstraint baseColumnNames="jobs_id" baseTableName="search_query_job" constraintName="FKrpvdcjfyle80g63bafe8vc6t" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="job"/>
+    </changeSet>
+</databaseChangeLog>

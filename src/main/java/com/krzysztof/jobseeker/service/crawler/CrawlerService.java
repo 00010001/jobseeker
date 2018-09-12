@@ -20,7 +20,6 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CrawlerService {
@@ -48,8 +47,8 @@ public class CrawlerService {
     }
 
     @Async
-    private void crawl(SearchQuery searchQuery, WebsiteName websiteName) {
-        List<Job> jobList = parseJobs(searchQuery, websiteName);
+    private void crawl(SearchQuery searchQuery, WebsiteName website) {
+        List<Job> jobList = parseJobs(searchQuery, website);
         assingSearchQueryToJobs(searchQuery, jobList);
         assignJobsToSearchQuery(searchQuery, jobList);
         jobRepository.saveAll(jobList);
@@ -65,9 +64,8 @@ public class CrawlerService {
         }
     }
 
-
-    private List<Job> parseJobs(SearchQuery searchQuery, WebsiteName websiteName) {
-        WebsiteDetails websiteDetails = websiteDetailsFactory.getWebsiteDetails(websiteName);
+    private List<Job> parseJobs(SearchQuery searchQuery, WebsiteName website) {
+        WebsiteDetails websiteDetails = websiteDetailsFactory.getWebsiteDetails(website);
         String position = searchQuery.getPosition();
         String location = searchQuery.getLocation();
         String crawlUrl = websiteDetails.getCrawlUrl(position, location);
@@ -82,6 +80,7 @@ public class CrawlerService {
 
     private List<Job> getJobsFromDocument(Document document, WebsiteDetails websiteDetails,
         SearchQuery searchQuery) {
+
         Elements jobPostings = getJobPostings(document, websiteDetails.getJobPostingCssQuery());
         List<Job> jobList = new ArrayList<>();
         for (Element jobPosting : jobPostings) {
@@ -90,6 +89,7 @@ public class CrawlerService {
             Job job = new Job();
             job.setTitle(jobTitle);
             job.setUrl(jobUrl);
+            job.setWebsiteLogoUrl(websiteDetails.getWebsiteLogoUrl());
             job.setSearchQueries(Stream.of(searchQuery).collect(Collectors.toSet()));
             jobList.add(job);
         }

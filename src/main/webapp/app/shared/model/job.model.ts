@@ -4,9 +4,20 @@ export interface IJob {
     id?: number;
     url?: string;
     title?: string;
+    description?: string;
+    companyLogoUrl?: string;
+    websiteLogoUrl?: string;
     searchQueries?: ISearchQuery[];
 }
 
 export class Job implements IJob {
-    constructor(public id?: number, public url?: string, public title?: string, public searchQueries?: ISearchQuery[]) {}
+    constructor(
+        public id?: number,
+        public url?: string,
+        public title?: string,
+        public description?: string,
+        public companyLogoUrl?: string,
+        public websiteLogoUrl?: string,
+        public searchQueries?: ISearchQuery[]
+    ) {}
 }

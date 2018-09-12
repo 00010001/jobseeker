@@ -5,11 +5,12 @@ import org.jsoup.nodes.Element;
 
 public class Pracuj extends WebsiteDetails {
 
+    private static final String LOGO_URL = "../../content/images/websitelogos/pracuj.png";
     private static final String JOB_POSTING_CSS_QUERY = ".o-list_item";
     private static final String SEARCH_URL = "https://www.pracuj.pl/praca/%1$s;kw/%2$s;wp";
 
     public Pracuj() {
-        super(JOB_POSTING_CSS_QUERY, SEARCH_URL);
+        super(JOB_POSTING_CSS_QUERY, SEARCH_URL, LOGO_URL);
     }
 
     @Override

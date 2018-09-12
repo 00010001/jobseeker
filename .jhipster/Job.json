@@ -1,15 +1,6 @@
 {
-    "name": "Job",
-    "fields": [
-        {
-            "fieldName": "url",
-            "fieldType": "String"
-        },
-        {
-            "fieldName": "title",
-            "fieldType": "String"
-        }
-    ],
+    "fluentMethods": true,
+    "clientRootFolder": "",
     "relationships": [
         {
             "relationshipType": "many-to-many",
@@ -19,13 +10,33 @@
             "otherEntityRelationshipName": "job"
         }
     ],
+    "fields": [
+        {
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "companyLogoUrl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "websiteLogoUrl",
+            "fieldType": "String"
+        }
+    ],
     "changelogDate": "20180829172211",
-    "entityTableName": "job",
     "dto": "no",
-    "pagination": "pagination",
+    "searchEngine": false,
     "service": "no",
+    "entityTableName": "job",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "applications": "*"
+    "pagination": "pagination"
 }

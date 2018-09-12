@@ -1,57 +1,51 @@
 <h1 class="display-4">こんにちは</h1>
-        <p class="lead">Use ninja search to find pefrect job!</p>
+<p class="lead">Use ninja search to find pefrect job!</p>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Stanowisko" #stanowisko>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Miejscowość" #miejscowosc>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Pracodawca (opcjonalnie)" #pracodawca>
-                </div>
-                <div class="col-md-3">
-
-                </div>
-            </div>
-            <hr/>
-            <button type="button" (click)='search(stanowisko.value, miejscowosc.value, pracodawca.value)' class="btn btn-primary">Szukaj</button>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Stanowisko" #stanowisko>
         </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Miejscowość" #miejscowosc>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Pracodawca (opcjonalnie)" #pracodawca>
+        </div>
+        <div class="col-md-3">
 
-        <div class="row" [hidden]="!resp">
-            <div class="col-lg-8">
-                Wyniki wyszukiwania:
+        </div>
+    </div>
+    <hr/>
+    <button type="button" (click)='search(stanowisko.value, miejscowosc.value, pracodawca.value)' class="btn btn-primary">Szukaj</button>
+</div>
 
+<div class="row" [hidden]="!resp">
+    <div class="col-lg-8">
+        Wyniki wyszukiwania:
+        <div *ngFor="let item of resp; let i = index">
 
-                <div *ngFor="let item of resp; let i = index">
-                    <div class="card text-center">
-                        <div class="card-body">
-                            <div class="col">
-                                <h5 class="card-title">
-                                    <b><a [href]="item.url">{{item.title}}</a></b> - SCHIBSTED TECH POLSKA</h5>
-                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                            2 days ago
-                        </div>
-                    </div>
-                    <br/>
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><a [href]="item.url">{{item.title}}</a> - Nowa Firma</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
-            </div>
-
-            <div class="col-lg-4">
-                <br/>
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="col">
-                            <h5 class="card-title">Ostatnio wyszukiwane:</h5>
-                            <p class="card-text">Java Developer - katowice</p>
-                        </div>
-                    </div>
-                </div>
-                <br/>
+                <div class="card-header">2 days ago - {{item.websiteLogoUrl}}</div>
             </div>
         </div>
+        <br/>
+    </div>
+
+    <div class="col-lg-4">
+        <br/>
+        <div class="card text-center">
+            <div class="card-body">
+                <div class="col">
+                    <h5 class="card-title">Ostatnio wyszukiwane:</h5>
+                    <p class="card-text">Java Developer - katowice</p>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

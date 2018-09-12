@@ -1,13 +1,18 @@
 package com.krzysztof.jobseeker.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * A Job.
@@ -28,6 +33,15 @@ public class Job implements Serializable {
 
     @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "company_logo_url")
+    private String companyLogoUrl;
+
+    @Column(name = "website_logo_url")
+    private String websiteLogoUrl;
 
     @ManyToMany(mappedBy = "jobs")
     @JsonIgnore
@@ -66,6 +80,45 @@ public class Job implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Job description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCompanyLogoUrl() {
+        return companyLogoUrl;
+    }
+
+    public Job companyLogoUrl(String companyLogoUrl) {
+        this.companyLogoUrl = companyLogoUrl;
+        return this;
+    }
+
+    public void setCompanyLogoUrl(String companyLogoUrl) {
+        this.companyLogoUrl = companyLogoUrl;
+    }
+
+    public String getWebsiteLogoUrl() {
+        return websiteLogoUrl;
+    }
+
+    public Job websiteLogoUrl(String websiteLogoUrl) {
+        this.websiteLogoUrl = websiteLogoUrl;
+        return this;
+    }
+
+    public void setWebsiteLogoUrl(String websiteLogoUrl) {
+        this.websiteLogoUrl = websiteLogoUrl;
     }
 
     public Set<SearchQuery> getSearchQueries() {
@@ -120,6 +173,9 @@ public class Job implements Serializable {
             "id=" + getId() +
             ", url='" + getUrl() + "'" +
             ", title='" + getTitle() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", companyLogoUrl='" + getCompanyLogoUrl() + "'" +
+            ", websiteLogoUrl='" + getWebsiteLogoUrl() + "'" +
             "}";
     }
 }

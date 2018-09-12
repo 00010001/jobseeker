@@ -17,6 +17,9 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="url"><span>Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="title"><span>Title</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="description"><span>Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="companyLogoUrl"><span>Company Logo Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="websiteLogoUrl"><span>Website Logo Url</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -25,6 +28,9 @@
                 <td><a [routerLink]="['/job', job.id, 'view' ]">{{job.id}}</a></td>
                 <td>{{job.url}}</td>
                 <td>{{job.title}}</td>
+                <td>{{job.description}}</td>
+                <td>{{job.companyLogoUrl}}</td>
+                <td>{{job.websiteLogoUrl}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
