@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 
 public class Praca extends WebsiteDetails {
 
-    private static final String LOGO_URL = "../../content/images/websitelogos/praca.png";
+    private static final String LOGO_URL = "https://www.praca.pl/praca2/assets/images/logo.svg";
     private static final String JOB_POSTING_CSS_QUERY = ".announcement-title";
     private static final String SEARCH_URL = "https://www.praca.pl/s-%1$s,%2$s.html?p=%1$s&m=%2$s";
 
@@ -26,6 +26,16 @@ public class Praca extends WebsiteDetails {
     @Override
     public String getJobUrl(Element element) {
         return element.select("a.title").attr("abs:href");
+    }
+
+    @Override
+    public String getJobDescription(Element element) {
+        return element.select(".announcement-area").text();
+    }
+
+    @Override
+    public String getJobCompany(Element element) {
+        return element.select(".company").text();
     }
 
 }

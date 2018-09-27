@@ -42,6 +42,11 @@ public class WebsiteDetails implements Crawlable{
     }
 
     @Override
+    public String getJobCompany(Element element) {
+        return null;
+    }
+
+    @Override
     public String getJobUrl(Element element) {
         return null;
     }

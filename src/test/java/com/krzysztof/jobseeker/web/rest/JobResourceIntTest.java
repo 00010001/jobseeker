@@ -54,6 +54,9 @@ public class JobResourceIntTest {
     private static final String DEFAULT_WEBSITE_LOGO_URL = "AAAAAAAAAA";
     private static final String UPDATED_WEBSITE_LOGO_URL = "BBBBBBBBBB";
 
+    private static final String DEFAULT_COMPANY = "AAAAAAAAAA";
+    private static final String UPDATED_COMPANY = "BBBBBBBBBB";
+
     @Autowired
     private JobRepository jobRepository;
 
@@ -97,7 +100,8 @@ public class JobResourceIntTest {
             .title(DEFAULT_TITLE)
             .description(DEFAULT_DESCRIPTION)
             .companyLogoUrl(DEFAULT_COMPANY_LOGO_URL)
-            .websiteLogoUrl(DEFAULT_WEBSITE_LOGO_URL);
+            .websiteLogoUrl(DEFAULT_WEBSITE_LOGO_URL)
+            .company(DEFAULT_COMPANY);
         return job;
     }
 
@@ -126,6 +130,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testJob.getCompanyLogoUrl()).isEqualTo(DEFAULT_COMPANY_LOGO_URL);
         assertThat(testJob.getWebsiteLogoUrl()).isEqualTo(DEFAULT_WEBSITE_LOGO_URL);
+        assertThat(testJob.getCompany()).isEqualTo(DEFAULT_COMPANY);
     }
 
     @Test
@@ -162,7 +167,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].companyLogoUrl").value(hasItem(DEFAULT_COMPANY_LOGO_URL.toString())))
-            .andExpect(jsonPath("$.[*].websiteLogoUrl").value(hasItem(DEFAULT_WEBSITE_LOGO_URL.toString())));
+            .andExpect(jsonPath("$.[*].websiteLogoUrl").value(hasItem(DEFAULT_WEBSITE_LOGO_URL.toString())))
+            .andExpect(jsonPath("$.[*].company").value(hasItem(DEFAULT_COMPANY.toString())));
     }
     
 
@@ -181,7 +187,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.companyLogoUrl").value(DEFAULT_COMPANY_LOGO_URL.toString()))
-            .andExpect(jsonPath("$.websiteLogoUrl").value(DEFAULT_WEBSITE_LOGO_URL.toString()));
+            .andExpect(jsonPath("$.websiteLogoUrl").value(DEFAULT_WEBSITE_LOGO_URL.toString()))
+            .andExpect(jsonPath("$.company").value(DEFAULT_COMPANY.toString()));
     }
     @Test
     @Transactional
@@ -208,7 +215,8 @@ public class JobResourceIntTest {
             .title(UPDATED_TITLE)
             .description(UPDATED_DESCRIPTION)
             .companyLogoUrl(UPDATED_COMPANY_LOGO_URL)
-            .websiteLogoUrl(UPDATED_WEBSITE_LOGO_URL);
+            .websiteLogoUrl(UPDATED_WEBSITE_LOGO_URL)
+            .company(UPDATED_COMPANY);
 
         restJobMockMvc.perform(put("/api/jobs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -224,6 +232,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testJob.getCompanyLogoUrl()).isEqualTo(UPDATED_COMPANY_LOGO_URL);
         assertThat(testJob.getWebsiteLogoUrl()).isEqualTo(UPDATED_WEBSITE_LOGO_URL);
+        assertThat(testJob.getCompany()).isEqualTo(UPDATED_COMPANY);
     }
 
     @Test

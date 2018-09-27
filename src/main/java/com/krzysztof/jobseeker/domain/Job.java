@@ -1,18 +1,13 @@
 package com.krzysztof.jobseeker.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * A Job.
@@ -42,6 +37,9 @@ public class Job implements Serializable {
 
     @Column(name = "website_logo_url")
     private String websiteLogoUrl;
+
+    @Column(name = "company")
+    private String company;
 
     @ManyToMany(mappedBy = "jobs")
     @JsonIgnore
@@ -121,6 +119,19 @@ public class Job implements Serializable {
         this.websiteLogoUrl = websiteLogoUrl;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public Job company(String company) {
+        this.company = company;
+        return this;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
     public Set<SearchQuery> getSearchQueries() {
         return searchQueries;
     }
@@ -176,6 +187,7 @@ public class Job implements Serializable {
             ", description='" + getDescription() + "'" +
             ", companyLogoUrl='" + getCompanyLogoUrl() + "'" +
             ", websiteLogoUrl='" + getWebsiteLogoUrl() + "'" +
+            ", company='" + getCompany() + "'" +
             "}";
     }
 }

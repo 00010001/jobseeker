@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 public class CrawlerService {
 
     private final Logger logger = LogManager.getLogger(CrawlerService.class);
-
+    private static final int DESCRIPTION_MAX_LENGHT = 252;
     private WebsiteDetailsFactory websiteDetailsFactory;
     private JobRepository jobRepository;
     private final SearchQueryRepository searchQueryRepository;
@@ -49,7 +49,7 @@ public class CrawlerService {
     @Async
     private void crawl(SearchQuery searchQuery, WebsiteName website) {
         List<Job> jobList = parseJobs(searchQuery, website);
-        assingSearchQueryToJobs(searchQuery, jobList);
+        assignSearchQueryToJobs(searchQuery, jobList);
         assignJobsToSearchQuery(searchQuery, jobList);
         jobRepository.saveAll(jobList);
     }
@@ -58,7 +58,7 @@ public class CrawlerService {
         searchQuery.getJobs().addAll(jobList);
     }
 
-    private void assingSearchQueryToJobs(SearchQuery searchQuery, List<Job> jobList) {
+    private void assignSearchQueryToJobs(SearchQuery searchQuery, List<Job> jobList) {
         for (Job job : jobList) {
             job.getSearchQueries().add(searchQuery);
         }
@@ -84,22 +84,33 @@ public class CrawlerService {
         Elements jobPostings = getJobPostings(document, websiteDetails.getJobPostingCssQuery());
         List<Job> jobList = new ArrayList<>();
         for (Element jobPosting : jobPostings) {
-            String jobTitle = websiteDetails.getJobTitle(jobPosting);
-            String jobUrl = websiteDetails.getJobUrl(jobPosting);
-            Job job = new Job();
-            job.setTitle(jobTitle);
-            job.setUrl(jobUrl);
-            job.setWebsiteLogoUrl(websiteDetails.getWebsiteLogoUrl());
-            job.setSearchQueries(Stream.of(searchQuery).collect(Collectors.toSet()));
+            Job job = createJobObject(jobPosting, websiteDetails, searchQuery);
             jobList.add(job);
         }
         return jobList;
     }
 
+    private Job createJobObject(Element jobPosting, WebsiteDetails websiteDetails,
+        SearchQuery searchQuery){
+
+        Job job = new Job();
+        job.setTitle(websiteDetails.getJobTitle(jobPosting));
+        job.setUrl(websiteDetails.getJobUrl(jobPosting));
+        job.setCompany(websiteDetails.getJobCompany(jobPosting));
+        String jobDescription = websiteDetails.getJobDescription(jobPosting);
+        if (jobDescription.length() > DESCRIPTION_MAX_LENGHT) {
+            jobDescription = jobDescription.substring(0, DESCRIPTION_MAX_LENGHT) + "...";
+        }
+        job.setDescription(jobDescription);
+        job.setWebsiteLogoUrl(websiteDetails.getWebsiteLogoUrl());
+        job.setSearchQueries(Stream.of(searchQuery).collect(Collectors.toSet()));
+        return job;
+    }
+
     private Document getDocument(String url) {
         Document document = null;
         try {
-            logger.info("parsing from: " + url);
+            logger.debug("parsing from: " + url);
             document = Jsoup.connect(url).get();
         } catch (IOException e) {
             logger.error("error while parsing from: " + url);

@@ -7,6 +7,7 @@ export interface IJob {
     description?: string;
     companyLogoUrl?: string;
     websiteLogoUrl?: string;
+    company?: string;
     searchQueries?: ISearchQuery[];
 }
 
@@ -18,6 +19,7 @@ export class Job implements IJob {
         public description?: string,
         public companyLogoUrl?: string,
         public websiteLogoUrl?: string,
+        public company?: string,
         public searchQueries?: ISearchQuery[]
     ) {}
 }

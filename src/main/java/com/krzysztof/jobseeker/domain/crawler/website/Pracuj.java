@@ -27,4 +27,14 @@ public class Pracuj extends WebsiteDetails {
     public String getJobUrl(Element element) {
         return element.select(".o-list_item_link_name").attr("abs:href");
     }
+
+    @Override
+    public String getJobDescription(Element element) {
+        return element.text();
+    }
+
+    @Override
+    public String getJobCompany(Element element) {
+        return element.select(".o-list_item_link_emp").text();
+    }
 }

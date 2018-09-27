@@ -30,6 +30,10 @@
         {
             "fieldName": "websiteLogoUrl",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "company",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180829172211",

@@ -3,20 +3,27 @@
 
 <div class="form-group">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <input type="text" class="form-control" placeholder="Stanowisko" #stanowisko>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Miejscowość" #miejscowosc>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Pracodawca (opcjonalnie)" #pracodawca>
-        </div>
-        <div class="col-md-3">
-
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Miejscowość (zostaw puste zeby wyszukac wszystkie oferty)" #miejscowosc>
         </div>
     </div>
-    <hr/>
+    <div class="row">
+        <div class="col-md-8">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Stanowisko (drugie slowo kluczowe opcjonalnie)" #stanowisko2>
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Pracodawca (opcjonalnie)" #pracodawca>
+        </div>
+    </div>
+</br>
     <button type="button" (click)='search(stanowisko.value, miejscowosc.value, pracodawca.value)' class="btn btn-primary">Szukaj</button>
 </div>
 
@@ -27,10 +34,16 @@
 
             <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <h5 class="card-title"><a [href]="item.url">{{item.title}}</a> - Nowa Firma</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title">
+                        <a [href]="item.url">{{item.title}}</a> - {{item.company}} -
+                        <a [href]="'http://www.google.com/search?q=' + item.company">szukaj firmy w google</a>
+                    </h5>
+                    <p class="card-text">{{item.description}}</p>
                 </div>
-                <div class="card-header">2 days ago - {{item.websiteLogoUrl}}</div>
+                <div class="card-header">
+                    <img class="providerLogo" [src]=item.websiteLogoUrl> - 2 days ago -
+                    <a [href]=item.url>link do oferty</a>
+                </div>
             </div>
         </div>
         <br/>
